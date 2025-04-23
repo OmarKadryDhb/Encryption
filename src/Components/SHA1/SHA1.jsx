@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import "./SHA1.css"
 export default function SHA1() {
     const [text , setText] = useState('');
     const [result , setResult] = useState('');
@@ -86,7 +86,7 @@ export default function SHA1() {
 
 
 return <>
-    <div className="container w-50 pt-4">
+    <div className="container pt-4">
         <h1 class="fw-bold text-center">SHA-1</h1>
         <div class="form-group mb-3">
             <label for="exampleFormControlInput1" class="form-label fw-bold">Enter Text</label>

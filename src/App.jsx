@@ -26,7 +26,8 @@ const myRouter = createBrowserRouter([
     <RSA/>
   }
   ]}
-])
+]
+)
 function App() {
 
   let queryClient = new QueryClient();

@@ -1,9 +1,9 @@
 import React from 'react'
-
+import "./CBC.css"
 export default function CBC() {
 
 return <>
-    <div className="container w-50 pt-4">
+    <div className="container pt-4">
         <h1 class="fw-bold text-center">CBC</h1>
         <div class="form-group mb-3">
             <label for="exampleFormControlInput1" class="form-label fw-bold">Enter Text</label>

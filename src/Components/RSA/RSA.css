@@ -6,3 +6,8 @@
     margin-top: 10px;
     color: white !important;
 }
+@media (max-width: 750px) {
+    .container{
+        width: 100% !important;
+    }
+}

@@ -1,8 +1,17 @@
 import React from 'react'
 import "./RSA.css"
 export default function RSA() {
+  const P = 3
+  const Q = 7
+
+  const N = P * Q
+
+  const eluer = (P - 1) * (Q - 1)
+
+  
+
   return <>
-    <div className="container w-50 pt-4">
+    <div className="container  pt-4">
       <h1 class="fw-bold text-center">RSA</h1>
       <div class="form-group mb-3">
         <label for="exampleFormControlInput1" class="form-label fw-bold">Enter Text</label>
