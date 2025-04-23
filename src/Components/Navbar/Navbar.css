@@ -1,0 +1,6 @@
+.navbar{
+    background-color: #F8F9FA !important;
+}
+.navbar .navbar-nav a{
+    color: orange !important;
+}
