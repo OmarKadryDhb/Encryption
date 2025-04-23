@@ -9,7 +9,7 @@ import RSA from './Components/RSA/RSA.jsx';
 import SHA1 from './Components/SHA1/SHA1.jsx';
 
 const myRouter = createBrowserRouter([
-  {path:"",element:<Layout/>,children:[
+  {path:"/Encryption",element:<Layout/>,children:[
   {path:"",element:
     <Home/>
   },
