@@ -1,9 +1,10 @@
 import React from 'react'
 import "./CBC.css"
+import Home from '../Home/Home'
 export default function CBC() {
 
 return <>
-    <div className="container pt-4">
+    <div className="container content-con pt-4">
         <h1 class="fw-bold text-center">CBC</h1>
         <div class="form-group mb-3">
             <label for="exampleFormControlInput1" class="form-label fw-bold">Enter Text</label>
@@ -15,5 +16,6 @@ return <>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
     </div>
+    <Home/>
     </>
 }

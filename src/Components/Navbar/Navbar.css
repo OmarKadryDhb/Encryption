@@ -1,5 +1,8 @@
 .navbar{
-    background-color: #F8F9FA !important;
+    background-color: #03284d !important;
+}
+.navbar .main-link{
+    color: white !important;
 }
 .navbar .navbar-nav a{
     color: orange !important;

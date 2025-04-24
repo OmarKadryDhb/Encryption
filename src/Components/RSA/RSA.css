@@ -1,11 +1,27 @@
-.container{
-    /* background-color: rgb(204, 204, 204); */
+.content-con {
+    margin-top: 50px;
+    padding: 4rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 20px;
+
 }
-.container .form-group button{
+.content-con .form-group button{
     background-color: orange !important;
     margin-top: 10px;
     color: white !important;
+    font-weight: bold;
 }
+.container h1{
+    color: orange !important;
+}
+.container label , p{
+    color: white !important;
+}
+.container input , textarea{
+    background-color: #03284d !important ;
+    color: white !important;
+}
+
 @media (max-width: 750px) {
     .container{
         width: 100% !important;

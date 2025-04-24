@@ -11,10 +11,7 @@ import SHA1 from './Components/SHA1/SHA1.jsx';
 const myRouter = createBrowserRouter([
   {path:"/Encryption",element:<Layout/>,children:[
   {path:"",element:
-    <Home/>
-  },
-  {path:"Home",element:
-    <Home/>
+    <CBC/>
   },
   {path:"CBC",element:
     <CBC/>  

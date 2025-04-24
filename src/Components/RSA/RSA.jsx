@@ -1,5 +1,6 @@
 import React from 'react'
 import "./RSA.css"
+import Home from '../Home/Home'
 export default function RSA() {
   const P = 3
   const Q = 7
@@ -11,7 +12,7 @@ export default function RSA() {
   
 
   return <>
-    <div className="container  pt-4">
+    <div className="container content-con  pt-4">
       <h1 class="fw-bold text-center">RSA</h1>
       <div class="form-group mb-3">
         <label for="exampleFormControlInput1" class="form-label fw-bold">Enter Text</label>
@@ -23,5 +24,6 @@ export default function RSA() {
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
       </div>
     </div>
+    <Home/>
 </>
 }
