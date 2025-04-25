@@ -1,32 +1,57 @@
 import React, { useState } from 'react'
 import "./RSA.css"
 import Home from '../Home/Home'
+
 export default function RSA() {
   const [message, setMessage] = useState('')
-  const [cipherText, setCipherText] = useState('')
-  // const [decryptedText, setDecryptedText] = useState('')
   const [publicKey, setPublicKey] = useState('')
   const [privateKey, setPrivateKey] = useState('')
   const [result, setResult] = useState('')
+  const [primeP, setPrimeP] = useState(null)
+  const [primeQ, setPrimeQ] = useState(null)
 
   const encrypt = () => {
-    const p = 71, q = 73;
-    const cipherText = encryption(message, p, q);
-    const decryptedMessage = decryption(cipherText, p, q);
+    if (!primeP || !primeQ) {
+      setResult("Please generate keys first.");
+      return;
+    }
+    const cipherText = encryption(message, primeP, primeQ);
+    const decryptedMessage = decryption(cipherText, primeP, primeQ);
 
-    const key = keys(p, q);
-    setPublicKey(`(${key[0]}, ${key[1]})`);
-    setPrivateKey(`(${key[0]}, ${key[2]})`);
-    
+    const key = keys(primeP, primeQ);
     setResult(`Encrypted: ${cipherText.join(' ')}\nDecrypted: ${decryptedMessage}`);
   }
 
   const handleGenerateKeys = () => {
-    const p = 71, q = 73;
+    const { p, q } = generatePrimes();
     const key = keys(p, q);
     setPublicKey(`(${key[0]}, ${key[1]})`);
     setPrivateKey(`(${key[0]}, ${key[2]})`);
+    setPrimeP(p);
+    setPrimeQ(q);
   };
+
+  function generatePrimes() {
+    let p, q, n;
+    do {
+      p = generateSmallPrime(Date.now());
+      q = generateSmallPrime(p + 100);
+      n = p * q;
+    } while (n > 999999);
+    return { p, q };
+  }
+
+  function generateSmallPrime(seed) {
+    const primes = [101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191];
+    const index = lcg(seed, primes.length);
+    return primes[index];
+  }
+
+  function lcg(seed, range) {
+    const a = 1664525, c = 1013904223, m = 2 ** 32;
+    seed = (a * seed + c) % m;
+    return seed % range;
+  }
 
   function encryption(message, p, q) {
     const key = keys(p, q);
@@ -34,7 +59,7 @@ export default function RSA() {
     const cipherText = ascii.map(num => modPow(BigInt(num), BigInt(key[1]), BigInt(key[0])));
     return cipherText.map(n => Number(n));
   }
-  
+
   function decryption(cipherText, p, q) {
     const key = keys(p, q);
     const decrypted = cipherText.map(num => {
@@ -79,25 +104,158 @@ export default function RSA() {
     return coPrimes;
   }
 
-  
-  function keys(p,q) { // to generate keys
-    var n = 0, euler = 0, e = 0, d;
-    n = p * q;
-    let nums_e = [];
-    euler = ((p - 1) * (q - 1));
-    nums_e = getCoprimes(euler);
-    e = nums_e[0];
-    d = modInverse(e, n, euler);
-    let data_key = [n, e, d, euler];
-    return data_key;
-  }
-
   function modInverse(e, n, euler) {
     for (let x = 1; x < n; x++) {
       if ((e * x) % euler === 1 && x !== e) return x;
     }
     throw new Error("No modular inverse found");
   }
+
+  return <>
+    <div className="container content-con pt-4">
+      <h1 className="fw-bold text-center">RSA</h1>
+      <div className="container gen-con mb-3 p-0">
+        <div className="row d-flex justify-content-around">
+          <h4 className='fw-bold text-white'>Generate Keys</h4>
+          <div className="col-md-6 mb-4">
+            <div className="PublicKey pt-3 ">
+              <h6 className='fw-bold text-white'>Public Key</h6>
+              <div className="input-copy d-flex justify-content-center align-items-center">
+                <input type="text" className='public-input form-control' readOnly value={btoa(publicKey)} />
+                <i className="fa-solid fa-copy fs-5 text-white"></i>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6 mb-4">
+            <div className="PrivateKey pt-3">
+              <h6 className='fw-bold text-white'>Private Key</h6>
+              <div className="input-copy d-flex justify-content-center align-items-center">
+                <input type="text" className='public-input form-control' readOnly value={btoa(privateKey)} />
+                <i className="fa-solid fa-copy fs-5 text-white"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="generateBtn d-flex justify-content-start">
+          <button className='generate-btn btn fw-bold m-0' onClick={handleGenerateKeys}>Generate</button>
+        </div>
+      </div>
+      <div className="input-output">
+        <div className="form-group mb-3">
+          <label htmlFor="exampleFormControlInput1" className="form-label fw-bold">Enter Text</label>
+          <input type="text" className="form-control rsa-text" id="exampleFormControlInput1" onChange={(e) => setMessage(e.target.value)} placeholder="Hello" />
+          <button type="button" className="btn" disabled={!message} onClick={encrypt}>Encrypt</button>
+          {/* <button type="button" className="btn ms-2" onClick={encrypt}>Decrypt</button> */}
+        </div>
+        <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Result</label>
+        <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly value={result}></textarea>
+      </div>
+    </div>
+  </>
+}
+
+
+
+// import React, { useState } from 'react'
+// import "./RSA.css"
+// import Home from '../Home/Home'
+// export default function RSA() {
+//   const [message, setMessage] = useState('')
+//   const [cipherText, setCipherText] = useState('')
+//   // const [decryptedText, setDecryptedText] = useState('')
+//   const [publicKey, setPublicKey] = useState('')
+//   const [privateKey, setPrivateKey] = useState('')
+//   const [result, setResult] = useState('')
+
+//   const encrypt = () => {
+//     const p = 71, q = 73;
+//     const cipherText = encryption(message, p, q);
+//     const decryptedMessage = decryption(cipherText, p, q);
+
+//     const key = keys(p, q);
+//     setPublicKey(`(${key[0]}, ${key[1]})`);
+//     setPrivateKey(`(${key[0]}, ${key[2]})`);
+    
+//     setResult(`Encrypted: ${cipherText.join(' ')}\nDecrypted: ${decryptedMessage}`);
+//   }
+
+//   const handleGenerateKeys = () => {
+//     const p = 71, q = 73;
+//     const key = keys(p, q);
+//     setPublicKey(`(${key[0]}, ${key[1]})`);
+//     setPrivateKey(`(${key[0]}, ${key[2]})`);
+//   };
+
+//   function encryption(message, p, q) {
+//     const key = keys(p, q);
+//     const ascii = [...message].map(char => char.charCodeAt(0));
+//     const cipherText = ascii.map(num => modPow(BigInt(num), BigInt(key[1]), BigInt(key[0])));
+//     return cipherText.map(n => Number(n));
+//   }
+  
+//   function decryption(cipherText, p, q) {
+//     const key = keys(p, q);
+//     const decrypted = cipherText.map(num => {
+//       const decryptedChar = modPow(BigInt(num), BigInt(key[2]), BigInt(key[0]));
+//       return String.fromCharCode(Number(decryptedChar));
+//     });
+//     return decrypted.join('');
+//   }
+
+//   function keys(p, q) {
+//     const n = p * q;
+//     const euler = (p - 1) * (q - 1);
+//     const e = getCoprimes(euler)[0];
+//     const d = modInverse(e, n, euler);
+//     return [n, e, d, euler];
+//   }
+
+//   function gcd(a, b) {
+//     while (b !== 0) {
+//       [a, b] = [b, a % b];
+//     }
+//     return a;
+//   }
+
+//   function modPow(base, exponent, mod) {
+//     let result = 1n;
+//     while (exponent > 0n) {
+//       if (exponent % 2n === 1n) {
+//         result = (result * base) % mod;
+//       }
+//       exponent = exponent / 2n;
+//       base = (base * base) % mod;
+//     }
+//     return result;
+//   }
+
+//   function getCoprimes(euler) {
+//     const coPrimes = [];
+//     for (let i = 2; i < euler; i++) {
+//       if (gcd(i, euler) === 1) coPrimes.push(i);
+//     }
+//     return coPrimes;
+//   }
+
+  
+//   function keys(p,q) { // to generate keys
+//     var n = 0, euler = 0, e = 0, d;
+//     n = p * q;
+//     let nums_e = [];
+//     euler = ((p - 1) * (q - 1));
+//     nums_e = getCoprimes(euler);
+//     e = nums_e[0];
+//     d = modInverse(e, n, euler);
+//     let data_key = [n, e, d, euler];
+//     return data_key;
+//   }
+
+//   function modInverse(e, n, euler) {
+//     for (let x = 1; x < n; x++) {
+//       if ((e * x) % euler === 1 && x !== e) return x;
+//     }
+//     throw new Error("No modular inverse found");
+//   }
   
   // class LCG {
   //   constructor(seed, a = 1664525, c = 1013904223, m = 2 ** 32) {
@@ -129,48 +287,48 @@ export default function RSA() {
   //   return key;
   // }
 
-  return <>
-    <div className="container content-con  pt-4">
-      <h1 className="fw-bold text-center">RSA</h1>
-      <div className="container gen-con mb-3 p-0">
-        <div className="row d-flex justify-content-around">
-          <h4 className='fw-bold text-white'>Generate Keys</h4>
-          <div className="col-md-6 mb-4">
-            <div className="PublicKey pt-3 ">
-              <h6 className='fw-bold text-white'>Public Key</h6>
-              <div className="input-copy d-flex justify-content-center align-items-center">
-                <input type="text" className='public-input form-control' readOnly value={publicKey} />
-                <i className="fa-solid fa-copy fs-5 text-white"></i>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6 mb-4">
-            <div className="PrivateKey pt-3">
-              <h6 className='fw-bold text-white'>Private Key</h6>
-              <div className="input-copy d-flex justify-content-center align-items-center">
-                <input type="text" className='public-input form-control' readOnly value={privateKey} />
-                <i className="fa-solid fa-copy fs-5 text-white"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="generateBtn d-flex justify-content-start  ">
-          <button className='generate-btn btn fw-bold m-0' onClick={handleGenerateKeys} >Generate</button>
-        </div>
+//   return <>
+//     <div className="container content-con  pt-4">
+//       <h1 className="fw-bold text-center">RSA</h1>
+//       <div className="container gen-con mb-3 p-0">
+//         <div className="row d-flex justify-content-around">
+//           <h4 className='fw-bold text-white'>Generate Keys</h4>
+//           <div className="col-md-6 mb-4">
+//             <div className="PublicKey pt-3 ">
+//               <h6 className='fw-bold text-white'>Public Key</h6>
+//               <div className="input-copy d-flex justify-content-center align-items-center">
+//                 <input type="text" className='public-input form-control' readOnly value={publicKey} />
+//                 <i className="fa-solid fa-copy fs-5 text-white"></i>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="col-md-6 mb-4">
+//             <div className="PrivateKey pt-3">
+//               <h6 className='fw-bold text-white'>Private Key</h6>
+//               <div className="input-copy d-flex justify-content-center align-items-center">
+//                 <input type="text" className='public-input form-control' readOnly value={privateKey} />
+//                 <i className="fa-solid fa-copy fs-5 text-white"></i>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//         <div className="generateBtn d-flex justify-content-start  ">
+//           <button className='generate-btn btn fw-bold m-0' onClick={handleGenerateKeys} >Generate</button>
+//         </div>
         
-      </div>
-      <div className="input-output">
-        <div className="form-group mb-3">
-          <label htmlFor="exampleFormControlInput1" className="form-label fw-bold">Enter Text</label>
-          <input type="text" className="form-control rsa-text" id="exampleFormControlInput1"  onChange={(e) => setMessage(e.target.value)} placeholder="Hello"/>
-          <button type="button" className="btn" onClick={encrypt}>Encrypt</button>
-        </div>
-        <label htmlFor="exampleFormControlTextarea1" class="form-label fw-bold">Result</label>
-        <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly value={result}></textarea>
-      </div>
-    </div>
-</>
-}
+//       </div>
+//       <div className="input-output">
+//         <div className="form-group mb-3">
+//           <label htmlFor="exampleFormControlInput1" className="form-label fw-bold">Enter Text</label>
+//           <input type="text" className="form-control rsa-text" id="exampleFormControlInput1"  onChange={(e) => setMessage(e.target.value)} placeholder="Hello"/>
+//           <button type="button" className="btn" onClick={encrypt}>Result</button>
+//         </div>
+//         <label htmlFor="exampleFormControlTextarea1" class="form-label fw-bold">Result</label>
+//         <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly value={result}></textarea>
+//       </div>
+//     </div>
+// </>
+// }
 
 // import React, { useState } from 'react';
 // import "./RSA.css";
