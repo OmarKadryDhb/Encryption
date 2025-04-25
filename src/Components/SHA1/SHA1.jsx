@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import "./SHA1.css"
-import Home from '../Home/Home';
 export default function SHA1() {
     const [text , setText] = useState('');
     const [result , setResult] = useState('');
@@ -88,17 +87,16 @@ export default function SHA1() {
 
 return <>
     <div className="container content-con pt-4">
-        <h1 class="fw-bold text-center">SHA-1</h1>
-        <div class="form-group mb-3">
-            <label for="exampleFormControlInput1" class="form-label fw-bold">Enter Text</label>
-            <input type="text" class="form-control" onChange={(e) => setText(e.target.value)} value={text} id="exampleFormControlInput1" placeholder="Hello"/>
-            <button type="button" onClick={handleEncrypt} class="btn">Encrypt</button>
+        <h1 className="fw-bold text-center">SHA-1</h1>
+        <div className="form-group mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label fw-bold">Enter Text</label>
+            <input type="text" className="form-control" onChange={(e) => setText(e.target.value)} value={text} id="exampleFormControlInput1" placeholder="Hello"/>
+            <button type="button" onClick={handleEncrypt} className="btn">Encrypt</button>
         </div>
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label fw-bold">Result</label>
-            <textarea class="form-control" value={result} id="exampleFormControlTextarea1" rows="3"></textarea>
+        <div className="mb-3">
+            <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Result</label>
+            <textarea className="form-control" value={result} id="exampleFormControlTextarea1" readOnly rows="3"></textarea>
         </div>
     </div>
-    <Home/>
 </>
 }
