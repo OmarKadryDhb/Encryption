@@ -106,7 +106,7 @@ function Sha1Encryptor() {
     setResult(hash);
   }
 
-  return (
+  return <>
     <div className="container content-con pt-4">
       <h1 className="fw-bold text-center">SHA-1</h1>
       <div className="form-group mb-3">
@@ -139,7 +139,20 @@ function Sha1Encryptor() {
         />
       </div>
     </div>
-  );
+    <div className="container pt-5">
+      <div className="content">
+        <h1 className="text-center fw-bold">Overview</h1>
+        <h5 className='text-white fw-bold'>🛡️ SHA-1 (Secure Hash Algorithm 1)</h5>
+        <p>SHA-1 is a cryptographic hash function that produces a 160-bit (20-byte) hash value from an input. It was designed for digital signature verification and data integrity checks. However, due to discovered vulnerabilities (collision attacks), SHA-1 is now considered insecure for many cryptographic applications and has been replaced by stronger algorithms like SHA-256.
+        Key Features:
+        Produces a fixed 160-bit output.
+        Used in early SSL/TLS, digital certificates, and Git version control.
+        No longer recommended for secure systems due to collision vulnerabilities.
+      </p>
+      </div>
+    </div>
+    </>
+  ;
 }
 
 export default Sha1Encryptor;

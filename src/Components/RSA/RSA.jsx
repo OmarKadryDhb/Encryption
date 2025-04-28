@@ -104,8 +104,8 @@ export default function RSA() {
   }
 
   function modInverse(e, n, euler) {
-    for (let x = 1; x < n; x++) {
-      if ((e * x) % euler === 1 && x !== e) return x;
+    for (let d = 1; d < n; d++) {
+      if ((e * d) % euler === 1 && d !== e) return d;
     }
     throw new Error("No modular inverse found");
   }
@@ -148,6 +148,19 @@ export default function RSA() {
         </div>
         <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Result</label>
         <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly value={result}></textarea>
+      </div>
+    </div>
+
+    <div className="container pt-5">
+      <div className="content">
+        <h1 className="text-center fw-bold">Overview</h1>
+        <h5 className='text-white fw-bold'>🔑 RSA (Rivest–Shamir–Adleman)</h5>
+        <p>RSA is a public-key cryptographic system that enables secure data transmission. It is based on the mathematical difficulty of factoring large prime numbers. RSA uses a pair of keys: a public key to encrypt data and a private key to decrypt it. It is widely used for securing sensitive data, digital signatures, and key exchanges.
+        Key Features:Asymmetric encryption (different keys for encryption and decryption).
+        Provides confidentiality, authenticity, and integrity.
+        Security depends on the difficulty of factoring large integers.
+
+        </p>
       </div>
     </div>
   </>

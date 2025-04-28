@@ -96,6 +96,7 @@ export default function CBCPage() {
     const encoder = new TextEncoder();
     const plaintextBytes = Array.from(encoder.encode(message));
     const encryptedBytes = cbcEncrypt(plaintextBytes, key, iv);
+    
     setCiphertext(encryptedBytes);
     setResult(`Encrypted: ${btoa(String.fromCharCode(...encryptedBytes))}`);
     };
@@ -152,6 +153,18 @@ export default function CBCPage() {
                 <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Result</label>
                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly value={result}></textarea>
             </div>
+        </div>
+        <div className="container pt-5">
+      <div className="content">
+        <h1 className="text-center fw-bold">Overview</h1>
+        <h5 className='text-white fw-bold'>📦 Cipher Block Chaining (CBC)</h5>
+        <p>Cipher Block Chaining (CBC) is a mode of operation for block ciphers, like AES. In CBC, the plaintext is divided into fixed-size blocks. Each block is first XORed with the previous ciphertext block before being encrypted. The first block uses an Initialization Vector (IV) instead of a previous block. This method ensures that identical plaintext blocks will encrypt to different ciphertext blocks, enhancing security.
+        Key Features:
+        Requires an Initialization Vector (IV).
+        Protects against pattern leakage in ciphertext.
+        Errors propagate: a single-bit error affects two blocks during decryption.
+        </p>
+      </div>
         </div>
     </>
     ;
