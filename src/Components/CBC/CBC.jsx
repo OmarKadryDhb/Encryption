@@ -147,7 +147,7 @@ export default function CBCPage() {
                     <label htmlFor="exampleFormControlInput1" className="form-label fw-bold">Enter Text</label>
                     <input type="text" className="form-control rsa-text" id="exampleFormControlInput1" onChange={(e) => setMessage(e.target.value)} placeholder="Hello"/>
                     <button type="button" className="btn btn-primary mt-2" onClick={encrypt} disabled={!message.trim()}>Encrypt</button>
-                    <button type="button" className="btn btn-secondary mt-2 ms-2" onClick={decrypt} disabled={ciphertext.length === 0}>Decrypt</button>
+                    <button type="button" className="btn btn-secondary mt-2 ms-2" onClick={decrypt} disabled={ciphertext.length === 0 || !message.trim()}>Decrypt</button>
                 </div>
                 <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Result</label>
                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly value={result}></textarea>

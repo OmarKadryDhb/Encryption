@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import "./RSA.css"
-import Home from '../Home/Home'
 
 export default function RSA() {
   const [message, setMessage] = useState('')
@@ -19,7 +18,7 @@ export default function RSA() {
     const decryptedMessage = decryption(cipherText, primeP, primeQ);
 
     const key = keys(primeP, primeQ);
-    setResult(`Encrypted: ${cipherText.join(' ')}\nDecrypted: ${decryptedMessage}`);
+    setResult(`Encrypted: ${btoa(cipherText.join(' '))}\nDecrypted: ${decryptedMessage}`);
   }
 
   const handleGenerateKeys = () => {
@@ -144,7 +143,7 @@ export default function RSA() {
         <div className="form-group mb-3">
           <label htmlFor="exampleFormControlInput1" className="form-label fw-bold">Enter Text</label>
           <input type="text" className="form-control rsa-text" id="exampleFormControlInput1" onChange={(e) => setMessage(e.target.value)} placeholder="Hello" />
-          <button type="button" className="btn" disabled={!message} onClick={encrypt}>Encrypt</button>
+          <button type="button" className="btn" disabled={!message} onClick={encrypt}>Submit</button>
           {/* <button type="button" className="btn ms-2" onClick={encrypt}>Decrypt</button> */}
         </div>
         <label htmlFor="exampleFormControlTextarea1" className="form-label fw-bold">Result</label>
